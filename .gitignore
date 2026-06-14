@@ -1,0 +1,7 @@
+# Local environment variables containing secret keys
+.env
+*.env
+env/
+venv/
+__pycache__/
+.DS_Store
