@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>🧭 Meridian Agent - Study Hub</title>
+    <style>
+        body { font-family: 'Segoe UI', system-ui, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; background: #f3f2f1; color: #323130; }
+        .card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        textarea { width: 100%; height: 150px; padding: 12px; border: 1px solid #a19f9d; border-radius: 4px; box-sizing: border-box; resize: vertical; margin-top: 10px; }
+        button { background: #0078d4; color: white; border: none; padding: 12px 24px; font-size: 16px; border-radius: 4px; cursor: pointer; margin-top: 15px; font-weight: 600; }
+        button:hover { background: #106ebe; }
+        #output { margin-top: 30px; white-space: pre-wrap; background: #faf9f8; padding: 20px; border-left: 4px solid #0078d4; border-radius: 4px; display: none; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>🧭 Meridian Agent Dashboard</h2>
+        <p>Paste a lecture or meeting transcript text below to instantly generate interactive quiz elements.</p>
+        <textarea id="transcript" placeholder="Teacher: Welcome to class today. Today we are going to learn about the laws of thermodynamics..."></textarea>
+        <button onclick="generateQuiz()">Generate Study Kit</button>
+        <div id="output"></div>
+    </div>
+
+    <script>
+        async function generateQuiz() {
+            const textText = document.getElementById('transcript').value;
+            const outputDiv = document.getElementById('output');
+            if(!textText.trim()) return alert("Please enter transcript text first!");
+            
+            outputDiv.style.display = "block";
+            outputDiv.innerText = "🔄 Processing stream transcript via Llama-3 AI Engine...";
+            
+            try {
+                const response = await fetch('/generate-quiz', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: textText })
+                });
+                const data = await response.json();
+                if(data.quiz) {
+                    outputDiv.innerText = data.quiz;
+                } else if(data.detail) {
+                    outputDiv.innerText = "❌ Error: " + data.detail;
+                } else {
+                    outputDiv.innerText = "❌ Unknown response received.";
+                }
+            } catch (err) {
+                outputDiv.innerText = "❌ Error connecting to server dashboard.";
+            }
+        }
+    </script>
+</body>
+</html>
