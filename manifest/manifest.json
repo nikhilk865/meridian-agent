@@ -1,0 +1,37 @@
+{
+  "$schema": "https://microsoft.com",
+  "manifestVersion": "1.16",
+  "version": "1.0.0",
+  "id": "com.meridian.agent.teams",
+  "packageName": "com.meridian.agent",
+  "developer": {
+    "name": "Meridian Agent Dev Team",
+    "websiteUrl": "https://github.com",
+    "privacyUrl": "https://github.com",
+    "termsOfUseUrl": "https://github.com"
+  },
+  "name": {
+    "short": "Meridian Agent",
+    "full": "Meridian M365 Enterprise Knowledge Agent"
+  },
+  "description": {
+    "short": "Transforms unstructured stream audio into structured knowledge hubs.",
+    "full": "Meridian Agent is an enterprise-grade knowledge optimization agent designed to sit natively inside Microsoft Teams to ingest transcripts and generate interactive study check kits."
+  },
+  "icons": {
+    "outline": "icon-outline.png",
+    "color": "icon-color.png"
+  },
+  "configurableTabs": [],
+  "staticTabs": [],
+  "bots": [],
+  "connectors": [],
+  "composeExtensions": [],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "127.0.0.1"
+  ]
+}

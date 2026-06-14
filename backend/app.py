@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from groq import Groq
 from dotenv import load_dotenv
 
-# Force load the clean .env file variables
+# Load variables from the local .env file
 load_dotenv()
 
 app = FastAPI(title="Meridian Agent Portal")
@@ -27,7 +27,18 @@ async def generate_quiz(request: TranscriptRequest):
     if not request.text.strip():
         raise HTTPException(status_code=400, detail="Text cannot be empty.")
     
-    prompt = f"Analyze this lecture transcript and create exactly 3 multiple choice questions with answer keys:\n\n{request.text}"
+    # Securely defined prompt string block
+    prompt = (
+        "You are Meridian Agent, an elite educational AI core optimized for Microsoft Teams. "
+        "Analyze the following raw meeting transcript. Extract the most critical conceptual pillars, "
+        "and generate exactly 3 highly sophisticated multiple-choice questions to evaluate knowledge retention.\n\n"
+        "Format the output strictly like this:\n"
+        "### 🎯 CONCEPT PILLAR: [Insert Topic Name Here]\n"
+        "**Question 1:** [Question text]\n"
+        "A) [Option]\nB) [Option]\nC) [Option]\nD) [Option]\n"
+        "*🎯 Correct Answer Key & Brief Explanation:* [Answer Key]\n\n"
+        f"Transcript Content:\n{request.text}"
+    )
     
     try:
         completion = client.chat.completions.create(
